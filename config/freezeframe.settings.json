@@ -1,0 +1,6 @@
+{
+  "_config_name": "freezeframe.settings",
+  "gifs": "img[src$=\".gif\"]\nimg[src$=\".GIF\"]",
+  "duration": 5000,
+  "trigger": "hover"
+}

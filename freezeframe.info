@@ -1,0 +1,6 @@
+name = Freezeframe
+description = Play and pause animated GIFs by hovering over or clicking on them.
+backdrop = 1.x
+type = module
+configure = admin/config/media/freezeframe
+

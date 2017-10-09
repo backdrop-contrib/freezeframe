@@ -1,0 +1,110 @@
+<?php
+/**
+ * @file
+ * Play and pause animated GIFs by hovering over or clicking on them.
+ */
+
+/**
+ * Implements hook_library_info().
+ */
+function freezeframe_library_info() {
+  $libraries['freezeframe'] = array(
+    'title' => 'Freezeframe',
+    'website' => 'https://github.com/ctrl-freaks/freezeframe.js',
+    'version' => '3.0.8',
+    'js' => array(
+      backdrop_get_path('module', 'freezeframe') . '/library/imagesloaded.pkgd.js' => array(),
+      backdrop_get_path('module', 'freezeframe') . '/library/freezeframe.js' => array(),
+    ),
+    'css' => array(
+      backdrop_get_path('module', 'freezeframe') . '/library/freezeframe_styles.min.css' => array(),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Implements hook_config_info().
+ */
+function freezeframe_config_info() {
+  return array(
+    'freezeframe.settings' => array(
+      'label' => t('Freezeframe settings'),
+      'group' => t('Configuration'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function freezeframe_menu() {
+  $items['admin/config/media/freezeframe'] = array(
+    'title' => 'Freezeframe',
+    'description' => 'Configure Freezeframe settings.',
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('freezeframe_admin_form'),
+    'access arguments' => array('administer site configuration'),
+  );
+
+  return $items;
+}
+
+/**
+ * Form constructor for the Freezeframe settings form.
+ */
+function freezeframe_admin_form($form, &$form_state) {
+  $config = config('freezeframe.settings');
+
+  $form['gifs'] = array(
+    '#type' => 'textarea',
+    '#title' => t('GIF selector'),
+    '#description' => t("Enter jQuery selectors for the GIFs you want to freeze. One selector per line. Defaults to all GIF images."),
+    '#default_value' => $config->get('gifs'),
+  );
+  $form['trigger'] = array(
+    '#type' => 'radios',
+    '#title' => t('Trigger'),
+    '#description' => t("How to trigger the animation. NOTE: this only affects non-touch devices."),
+    '#default_value' => $config->get('trigger'),
+    '#options' => array(
+      'hover' => 'Hover',
+      'click' => 'Click',
+    ),
+  );
+  $form['duration'] = array(
+    '#type' => 'number',
+    '#title' => t('Duration'),
+    '#description' => t("The number of milliseconds a GIF will animate for. Set to '0' to animate infinitely. NOTE: this only affects GIFs triggered on click/touch."),
+    '#default_value' => $config->get('duration'),
+    '#min' => 0,
+  );
+
+  $form['#config'] = 'freezeframe.settings';
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_init().
+ */
+function freezeframe_init() {
+  if (!backdrop_installation_attempted()) {
+    $config = config_get('freezeframe.settings');
+
+    if (!empty($config['gifs'])) {
+      // Add library files.
+      backdrop_add_library('freezeframe', 'freezeframe', TRUE);
+      backdrop_add_js(backdrop_get_path('module', 'freezeframe') . '/js/ff.js');
+
+      // Add settings.
+      $gifs = array_map('trim', explode("\n", $config['gifs']));
+      $config['gifs'] = implode(', ', $gifs);
+      if ($config['duration'] == 0) {
+        $config['duration'] = 'Infinity';
+      }
+      backdrop_add_js(array('freezeframe' => $config), 'setting');
+    }
+  }
+}
+
