@@ -11,10 +11,9 @@ function freezeframe_library_info() {
   $libraries['freezeframe'] = array(
     'title' => 'Freezeframe',
     'website' => 'https://github.com/ctrl-freaks/freezeframe.js',
-    'version' => '3.0.8',
+    'version' => 'dev-3.0.8',
     'js' => array(
-      backdrop_get_path('module', 'freezeframe') . '/library/imagesloaded.pkgd.js' => array(),
-      backdrop_get_path('module', 'freezeframe') . '/library/freezeframe.js' => array(),
+      backdrop_get_path('module', 'freezeframe') . '/library/freezeframe.pkgd.min.js' => array(),
     ),
     'css' => array(
       backdrop_get_path('module', 'freezeframe') . '/library/freezeframe_styles.min.css' => array(),
