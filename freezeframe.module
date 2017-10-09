@@ -57,11 +57,22 @@ function freezeframe_menu() {
 function freezeframe_admin_form($form, &$form_state) {
   $config = config('freezeframe.settings');
 
+  $form['all'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Freeze all GIFs'),
+    '#description' => t("When checked, all GIFs across the site will be frozen. Uncheck to choose more specifically which GIFs to freeze."),
+    '#default_value' => $config->get('all'),
+  );
   $form['gifs'] = array(
     '#type' => 'textarea',
     '#title' => t('GIF selector'),
-    '#description' => t("Enter jQuery selectors for the GIFs you want to freeze. One selector per line. Defaults to all GIF images."),
+    '#description' => t("Enter jQuery selectors for the GIFs you want to freeze. One selector per line."),
     '#default_value' => $config->get('gifs'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="all"]' => array('checked' => FALSE),
+      ),
+    ),
   );
   $form['trigger'] = array(
     '#type' => 'radios',
@@ -92,14 +103,21 @@ function freezeframe_init() {
   if (!backdrop_installation_attempted()) {
     $config = config_get('freezeframe.settings');
 
+    // Set GIF selector(s).
+    if ($config['all']) {
+      $config['gifs'] = 'img[src$=".gif"], img[src$=".GIF"]';
+    }
+    elseif (!empty($config['gifs'])) {
+      $gifs = array_map('trim', explode("\n", $config['gifs']));
+      $config['gifs'] = implode(', ', $gifs);
+    }
+
     if (!empty($config['gifs'])) {
       // Add library files.
       backdrop_add_library('freezeframe', 'freezeframe', TRUE);
       backdrop_add_js(backdrop_get_path('module', 'freezeframe') . '/js/ff.js');
 
       // Add settings.
-      $gifs = array_map('trim', explode("\n", $config['gifs']));
-      $config['gifs'] = implode(', ', $gifs);
       if ($config['duration'] == 0) {
         $config['duration'] = 'Infinity';
       }
