@@ -2,3 +2,7 @@
   cursor: pointer;
 }
 
+.ff-container .ff-canvas {
+  width: 100%;
+}
+
