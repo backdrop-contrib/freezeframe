@@ -26,7 +26,7 @@ Backdrop.behaviors.freezeframe = {
     }
 
     // Add the overlay.
-    $('.ff-container').prepend('<div class="overlay"><img src="/core/misc/arrow-asc.png"></div>').each(function() {
+    $('.ff-container').prepend('<div class="overlay">Gif</div>').each(function() {
       // Toggle the overlay on click/hover (depending on the settings).
       if (settings.freezeframe.trigger == 'click' || touch) {
         $(this).click(function() {
