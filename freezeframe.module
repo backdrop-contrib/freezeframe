@@ -12,6 +12,7 @@ function freezeframe_library_info() {
     'title' => 'Freezeframe',
     'website' => 'https://github.com/ctrl-freaks/freezeframe.js',
     'version' => 'dev-3.0.8',
+    // Includes https://github.com/ctrl-freaks/freezeframe.js/pull/32
     'js' => array(
       backdrop_get_path('module', 'freezeframe') . '/library/freezeframe.pkgd.min.js' => array(),
     ),

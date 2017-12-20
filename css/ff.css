@@ -2,29 +2,27 @@
   cursor: pointer;
 }
 
-.ff-container .overlay {
+.ff-container .ff-playpause {
   background: rgba(0, 0, 0, 0.75);
   border-radius: 30px;
   color: #fff;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   height: 60px;
   left: 50%;
   line-height: 60px;
   margin: -30px 0 0 -30px;
-  position: absolute;
   text-align: center;
   text-transform: uppercase;
   top: 50%;
   width: 60px;
-  z-index: 2;
 }
 
-.ff-container:hover .overlay {
+.ff-container .ff-playpause:after {
+  content: 'gif';
+}
+
+.ff-container:hover .ff-playpause {
   background: rgba(0, 0, 0, 0.5);
-}
-
-.ff-container .ff-canvas {
-  width: 100%;
 }
 
