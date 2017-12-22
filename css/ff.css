@@ -2,6 +2,10 @@
   cursor: pointer;
 }
 
+.ff-container .ff-canvas {
+  width: 100%;
+}
+
 .ff-container .ff-playpause {
   background: rgba(0, 0, 0, 0.75);
   border-radius: 30px;
