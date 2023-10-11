@@ -27,11 +27,12 @@ https://github.com/backdrop-contrib/freezeframe/issues
 Current Maintainers
 -------------------
 
-- Peter Anderson (https://github.com/BWPanda)
+- Seeking maintainer(s)
 
 Credits
 -------
 
+- Developed for Backdrop CMS by [Peter Anderson](https://github.com/BWPanda).
 - Uses Chris Antonellis' freezeframe.js script (http://ctrl-freaks.github.io/freezeframe.js)
 
 License
